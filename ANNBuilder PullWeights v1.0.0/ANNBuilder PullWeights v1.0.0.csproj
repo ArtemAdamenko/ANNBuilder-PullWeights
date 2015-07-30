@@ -84,6 +84,7 @@
     <Compile Include="Library\IntRange.cs" />
     <Compile Include="Library\Layers\ActivationLayer.cs" />
     <Compile Include="Library\Layers\Layer.cs" />
+    <Compile Include="Library\Learning\PullWeightsLearning.cs" />
     <Compile Include="Library\Learning\BackPropagationLearning.cs" />
     <Compile Include="Library\Learning\ISupervisedLearning.cs" />
     <Compile Include="Library\Learning\ParallelResilientBackPropagationLearning.cs" />

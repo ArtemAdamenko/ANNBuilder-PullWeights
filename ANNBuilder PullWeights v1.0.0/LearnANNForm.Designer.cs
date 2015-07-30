@@ -102,6 +102,9 @@ namespace Neural
             this.validationLevelBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.weightsView = new System.Windows.Forms.DataGridView();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -110,6 +113,7 @@ namespace Neural
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lastRunsGridView)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weightsView)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -416,6 +420,7 @@ namespace Neural
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.weightsView);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.zedGraphControl1);
             this.groupBox2.Location = new System.Drawing.Point(12, 29);
@@ -452,7 +457,7 @@ namespace Neural
             this.lastRunsGridView.Location = new System.Drawing.Point(6, 17);
             this.lastRunsGridView.Name = "lastRunsGridView";
             this.lastRunsGridView.RowHeadersVisible = false;
-            this.lastRunsGridView.Size = new System.Drawing.Size(658, 207);
+            this.lastRunsGridView.Size = new System.Drawing.Size(665, 207);
             this.lastRunsGridView.TabIndex = 0;
             // 
             // Column5
@@ -516,7 +521,7 @@ namespace Neural
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(677, 334);
+            this.zedGraphControl1.Size = new System.Drawing.Size(391, 334);
             this.zedGraphControl1.TabIndex = 1;
             // 
             // groupBox6
@@ -589,6 +594,28 @@ namespace Neural
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // weightsView
+            // 
+            this.weightsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.weightsView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.value,
+            this.Valid});
+            this.weightsView.Location = new System.Drawing.Point(403, 13);
+            this.weightsView.Name = "weightsView";
+            this.weightsView.RowTemplate.Height = 23;
+            this.weightsView.Size = new System.Drawing.Size(280, 334);
+            this.weightsView.TabIndex = 6;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Value";
+            this.value.Name = "value";
+            // 
+            // Valid
+            // 
+            this.Valid.HeaderText = "Valid";
+            this.Valid.Name = "Valid";
+            // 
             // LearnANNForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
@@ -616,6 +643,7 @@ namespace Neural
             ((System.ComponentModel.ISupportInitialize)(this.lastRunsGridView)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.weightsView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -669,6 +697,9 @@ namespace Neural
         private DataGridViewTextBoxColumn Column9;
         private DataGridViewTextBoxColumn Column10;
         private DataGridViewTextBoxColumn Column11;
+        private DataGridView weightsView;
+        private DataGridViewTextBoxColumn value;
+        private DataGridViewTextBoxColumn Valid;
 
     }
 }

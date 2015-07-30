@@ -427,6 +427,31 @@ namespace Neural
             zedGraphControl1.GraphPane.CurveList[2].Clear();
             zedGraphControl1.AxisChange();
 
+            int trainingCount = 15;
+            double change = 0.1;
+            double maxLimit = 100;
+            double minLimit = -100;
+            Random rnd = new Random();
+
+            List<String> list = ANNUtils.getAvailableWeights(network);
+            List<String> trainingWeights = new List<String>();
+            for (int i = 0; i < trainingCount; i++)
+            {
+                int rndWeight = rnd.Next(0, list.Count - 1);
+                trainingWeights.Add(list[rndWeight]);
+                list.RemoveAt(rndWeight);
+            }
+
+            int currentWeight = 0;
+            String[] signature = new String[3];
+            int layer = 0;
+            int neuron = 0;
+            int weight = 0;
+            int order = 1;
+            int check = 0;
+            double lastValidation = 0;
+            double lastValue = 0;
+            double value = 0;
             // loop
             while (!needToStop)
             {
@@ -434,7 +459,7 @@ namespace Neural
                 {
                     if ((iterations >= maxIterations) && (this.error < validLevel))
                     {
-                        recordNeuroNet();
+                        recordNeuroNet();   
                         int potentialLayer = -1;
 
                         //search free layer for add neuron
@@ -500,8 +525,63 @@ namespace Neural
                     break;
                 }
                 // run epoch of learning procedure
-                error = (1 - (teacher.RunEpoch(this.input, this.output) / this.input.GetLength(0))) * 100;
+                //error = (1 - (teacher.RunEpoch(this.input, this.output) / this.input.GetLength(0))) * 100;
 
+                
+                if (signature[0] == null)
+                {
+                    signature = trainingWeights[currentWeight].Split(':');
+                    layer = Int32.Parse(signature[0]);
+                    neuron = Int32.Parse(signature[1]);
+                    weight = Int32.Parse(signature[2]);
+                    value = network.Layers[layer].Neurons[neuron].Weights[weight];
+                }
+                
+                if (weightsView.Rows.Count < currentWeight + 2)
+                {
+                    weightsView.Invoke(new Action(() => weightsView.Rows.Add(value)));
+                }
+
+                if (value <= maxLimit && order == 1)
+                {
+                    value += change;
+                    weightsView.Rows[currentWeight].Cells[0].Value = value;
+
+                }
+                else if (value >= maxLimit)
+                {
+                    order = -1;
+                    ++check;
+                }
+                if (value >= minLimit && order == -1)
+                {
+                    value -= change;
+                    weightsView.Rows[currentWeight].Cells[0].Value = value;
+                }
+                else if(value <= minLimit)
+                {
+                    order = 1;
+                    ++check;
+                }
+
+                if (lastValidation < moduleValidateError)
+                {
+                    lastValidation = moduleValidateError;
+                    lastValue = value;
+                }
+
+
+                if (check == 2)
+                {
+                    network.Layers[layer].Neurons[neuron].Weights[weight] = lastValue;
+                    weightsView.Rows[currentWeight].Cells[0].Value = value;
+                    weightsView.Rows[currentWeight].Cells[1].Value = lastValidation;
+                    signature[0] = null;
+                    currentWeight++;
+                    check = 0;
+                }
+
+                network.Layers[layer].Neurons[neuron].Weights[weight] = value;
 
                 moduleValidateError = this.moduleValidation();
                 probabilisticValidateError = this.probabilisticValidation();
