@@ -32,6 +32,10 @@ namespace Neural
 
         private double alpha = 2.0;
         private int iterations = 0;
+        private double weightChange = 0;
+        private int randomWeightsCount = 0;
+        private double maxWeightValue = 0;
+        private double minWeightValue = 0;
 
         private double error = 0.0;
         private double moduleValidateError = 0.0;
@@ -49,7 +53,7 @@ namespace Neural
 
         ActivationNetwork network;
         IActivationFunction activationFunc = null;
-        ISupervisedLearning teacher = null;
+        //ISupervisedLearning teacher = null;
         #endregion
 
         // Constructor
@@ -106,6 +110,10 @@ namespace Neural
             this.validationLevelBox.Text = validLevel.ToString();
             this.maxIterationsBox.Text = maxIterations.ToString();
             this.maxNeuronsInLayerBox.Text = maxNeuronsInLayer.ToString();
+            this.randomCountWeightsBox.Text = randomWeightsCount.ToString();
+            this.weightsChangeBox.Text = weightChange.ToString();
+            this.maxWeightValueBox.Text = maxWeightValue.ToString();
+            this.minWeightValueBox.Text = minWeightValue.ToString();
 
         }
 
@@ -228,12 +236,17 @@ namespace Neural
             validationLevelBox.Invoke(new Action(() => validationLevelBox.Enabled = enable));
             maxIterationsBox.Invoke(new Action(() => maxIterationsBox.Enabled = enable));
             maxNeuronsInLayerBox.Invoke(new Action(() => maxNeuronsInLayerBox.Enabled = enable));
+            minWeightValueBox.Invoke(new Action(() => minWeightValueBox.Enabled = enable));
+            maxWeightValueBox.Invoke(new Action(() => maxWeightValueBox.Enabled = enable));
+            weightsChangeBox.Invoke(new Action(() => weightsChangeBox.Enabled = enable));
+            randomCountWeightsBox.Invoke(new Action(() => randomCountWeightsBox.Enabled = enable));
 
         }
 
         // On button "Start"
         private void startButton_Click(object sender, System.EventArgs e)
         {
+
             // get learning rate
             try
             {
@@ -290,6 +303,10 @@ namespace Neural
                 neuronsAndLayers = new int[1];
                 neuronsAndLayers[0] = 2;
             }
+            randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
+            weightChange = Double.Parse(weightsChangeBox.Text);
+            maxWeightValue = Double.Parse(maxWeightValueBox.Text);
+            minWeightValue = Double.Parse(minWeightValueBox.Text);
             // update settings controls
             UpdateSettings();
 
@@ -427,15 +444,13 @@ namespace Neural
             zedGraphControl1.GraphPane.CurveList[2].Clear();
             zedGraphControl1.AxisChange();
 
-            int trainingCount = 15;
-            double change = 0.1;
-            double maxLimit = 100;
-            double minLimit = -100;
+            //int trainingCount = 15;
+
             Random rnd = new Random();
 
             List<String> list = ANNUtils.getAvailableWeights(network);
             List<String> trainingWeights = new List<String>();
-            for (int i = 0; i < trainingCount; i++)
+            for (int i = 0; i < randomWeightsCount; i++)
             {
                 int rndWeight = rnd.Next(0, list.Count - 1);
                 trainingWeights.Add(list[rndWeight]);
@@ -452,6 +467,7 @@ namespace Neural
             double lastValidation = 0;
             double lastValue = 0;
             double value = 0;
+            double initialValue = 0;
             // loop
             while (!needToStop)
             {
@@ -535,53 +551,76 @@ namespace Neural
                     neuron = Int32.Parse(signature[1]);
                     weight = Int32.Parse(signature[2]);
                     value = network.Layers[layer].Neurons[neuron].Weights[weight];
+                    initialValue = network.Layers[layer].Neurons[neuron].Weights[weight];
                 }
-                
+                if (lastValidation <= moduleValidateError)
+                {
+                    lastValidation = moduleValidateError;
+                    lastValue = value;
+                }
                 if (weightsView.Rows.Count < currentWeight + 2)
                 {
                     weightsView.Invoke(new Action(() => weightsView.Rows.Add(value)));
                 }
 
-                if (value <= maxLimit && order == 1)
+                if (value <= maxWeightValue && order == 1)
                 {
-                    value += change;
+                    value += weightChange;
                     weightsView.Rows[currentWeight].Cells[0].Value = value;
 
                 }
-                else if (value >= maxLimit)
+                else if (value >= maxWeightValue)
                 {
                     order = -1;
                     ++check;
                 }
-                if (value >= minLimit && order == -1)
+                if (value >= minWeightValue && order == -1)
                 {
-                    value -= change;
+                    value -= weightChange;
                     weightsView.Rows[currentWeight].Cells[0].Value = value;
                 }
-                else if(value <= minLimit)
+                else if(value <= minWeightValue)
                 {
                     order = 1;
                     ++check;
                 }
 
-                if (lastValidation < moduleValidateError)
-                {
-                    lastValidation = moduleValidateError;
-                    lastValue = value;
-                }
+
 
 
                 if (check == 2)
                 {
+                    if (lastValidation == 0)
+                    {
+                        lastValue = initialValue;
+
+                    }
                     network.Layers[layer].Neurons[neuron].Weights[weight] = lastValue;
-                    weightsView.Rows[currentWeight].Cells[0].Value = value;
+                    weightsView.Rows[currentWeight].Cells[0].Value = lastValue;
                     weightsView.Rows[currentWeight].Cells[1].Value = lastValidation;
                     signature[0] = null;
-                    currentWeight++;
+                    
+                    lastValidation = 0;
+                    lastValue = 0;
                     check = 0;
+                    if (currentWeight == randomWeightsCount - 1)
+                    {
+                        list = ANNUtils.getAvailableWeights(network);
+                        trainingWeights = new List<String>();
+                        for (int i = 0; i < randomWeightsCount; i++)
+                        {
+                            int rndWeight = rnd.Next(0, list.Count - 1);
+                            trainingWeights.Add(list[rndWeight]);
+                            list.RemoveAt(rndWeight);
+                        }
+                        currentWeight = 0;
+                    }
+                    currentWeight++;
                 }
-
-                network.Layers[layer].Neurons[neuron].Weights[weight] = value;
+                else
+                {
+                    network.Layers[layer].Neurons[neuron].Weights[weight] = value;
+                }
 
                 moduleValidateError = this.moduleValidation();
                 probabilisticValidateError = this.probabilisticValidation();
@@ -626,7 +665,7 @@ namespace Neural
 
                 // set current iteration's info
                 currentIterationBox.Invoke(new Action<string>((s) => currentIterationBox.Text = s), this.iterations.ToString());
-                errorPercent.Invoke(new Action<string>((s) => errorPercent.Text = s), error.ToString("F14"));
+               
                 moduleValidBox.Invoke(new Action<string>((s) => moduleValidBox.Text = s), moduleValidateError.ToString("F14"));
                 probabilisticValidBox.Invoke(new Action<string>((s) => probabilisticValidBox.Text = s), probabilisticValidateError.ToString("F14"));
 
