@@ -89,23 +89,18 @@ namespace Neural
             this.loadTrainDataButton = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.weightsView = new System.Windows.Forms.DataGridView();
-            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Valid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lastRunsGridView = new System.Windows.Forms.DataGridView();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.maxIterationsBox = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.maxNeuronsInLayerBox = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.validationLevelBox = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.allWeightsBox = new System.Windows.Forms.CheckBox();
+            this.index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.probabilisticCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3.SuspendLayout();
@@ -316,7 +311,7 @@ namespace Neural
             this.groupBox4.Controls.Add(this.moduleValidBox);
             this.groupBox4.Controls.Add(this.currentIterationBox);
             this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Location = new System.Drawing.Point(707, 412);
+            this.groupBox4.Location = new System.Drawing.Point(707, 447);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(195, 107);
             this.groupBox4.TabIndex = 6;
@@ -335,7 +330,7 @@ namespace Neural
             // probabilisticValidBox
             // 
             this.probabilisticValidBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.probabilisticValidBox.Location = new System.Drawing.Point(120, 47);
+            this.probabilisticValidBox.Location = new System.Drawing.Point(119, 48);
             this.probabilisticValidBox.Name = "probabilisticValidBox";
             this.probabilisticValidBox.Size = new System.Drawing.Size(66, 21);
             this.probabilisticValidBox.TabIndex = 7;
@@ -399,7 +394,7 @@ namespace Neural
             // 
             this.groupBox5.Controls.Add(this.startButton);
             this.groupBox5.Controls.Add(this.stopButton);
-            this.groupBox5.Location = new System.Drawing.Point(707, 525);
+            this.groupBox5.Location = new System.Drawing.Point(707, 560);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(195, 57);
             this.groupBox5.TabIndex = 11;
@@ -495,31 +490,22 @@ namespace Neural
             // 
             this.weightsView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.weightsView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.index,
             this.value,
             this.Valid});
             this.weightsView.Location = new System.Drawing.Point(480, 13);
             this.weightsView.Name = "weightsView";
+            this.weightsView.RowHeadersVisible = false;
             this.weightsView.RowTemplate.Height = 23;
-            this.weightsView.Size = new System.Drawing.Size(203, 334);
+            this.weightsView.Size = new System.Drawing.Size(203, 569);
             this.weightsView.TabIndex = 6;
-            // 
-            // value
-            // 
-            this.value.HeaderText = "Вес";
-            this.value.Name = "value";
-            // 
-            // Valid
-            // 
-            this.Valid.HeaderText = "Ошибка";
-            this.Valid.Name = "Valid";
-            this.Valid.Width = 60;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lastRunsGridView);
             this.groupBox1.Location = new System.Drawing.Point(6, 358);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(581, 230);
+            this.groupBox1.Size = new System.Drawing.Size(468, 230);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Последние запуски";
@@ -533,13 +519,12 @@ namespace Neural
             this.Column5,
             this.Column7,
             this.probabilisticCol,
-            this.Column8,
             this.Column9,
             this.Column10});
             this.lastRunsGridView.Location = new System.Drawing.Point(6, 17);
             this.lastRunsGridView.Name = "lastRunsGridView";
             this.lastRunsGridView.RowHeadersVisible = false;
-            this.lastRunsGridView.Size = new System.Drawing.Size(565, 207);
+            this.lastRunsGridView.Size = new System.Drawing.Size(462, 207);
             this.lastRunsGridView.TabIndex = 0;
             // 
             // zedGraphControl1
@@ -558,75 +543,48 @@ namespace Neural
             this.zedGraphControl1.Size = new System.Drawing.Size(468, 334);
             this.zedGraphControl1.TabIndex = 1;
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.maxIterationsBox);
-            this.groupBox6.Controls.Add(this.label14);
-            this.groupBox6.Controls.Add(this.maxNeuronsInLayerBox);
-            this.groupBox6.Controls.Add(this.label13);
-            this.groupBox6.Controls.Add(this.validationLevelBox);
-            this.groupBox6.Controls.Add(this.label12);
-            this.groupBox6.Location = new System.Drawing.Point(707, 297);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(195, 109);
-            this.groupBox6.TabIndex = 21;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Добавление нейронов";
-            // 
-            // maxIterationsBox
-            // 
-            this.maxIterationsBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxIterationsBox.Location = new System.Drawing.Point(127, 75);
-            this.maxIterationsBox.Name = "maxIterationsBox";
-            this.maxIterationsBox.Size = new System.Drawing.Size(61, 21);
-            this.maxIterationsBox.TabIndex = 5;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 82);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(111, 13);
-            this.label14.TabIndex = 4;
-            this.label14.Text = "Максимум итераций:";
-            // 
-            // maxNeuronsInLayerBox
-            // 
-            this.maxNeuronsInLayerBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxNeuronsInLayerBox.Location = new System.Drawing.Point(127, 47);
-            this.maxNeuronsInLayerBox.Name = "maxNeuronsInLayerBox";
-            this.maxNeuronsInLayerBox.Size = new System.Drawing.Size(61, 21);
-            this.maxNeuronsInLayerBox.TabIndex = 3;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(5, 51);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(95, 13);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "Нейронов в слое:";
-            // 
-            // validationLevelBox
-            // 
-            this.validationLevelBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.validationLevelBox.Location = new System.Drawing.Point(127, 19);
-            this.validationLevelBox.Name = "validationLevelBox";
-            this.validationLevelBox.Size = new System.Drawing.Size(61, 21);
-            this.validationLevelBox.TabIndex = 1;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 21);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(124, 13);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Уровень обучения(%):";
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.allWeightsBox);
+            this.groupBox6.Location = new System.Drawing.Point(707, 297);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(195, 144);
+            this.groupBox6.TabIndex = 21;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Опции";
+            // 
+            // allWeightsBox
+            // 
+            this.allWeightsBox.AutoSize = true;
+            this.allWeightsBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.allWeightsBox.Location = new System.Drawing.Point(7, 20);
+            this.allWeightsBox.Name = "allWeightsBox";
+            this.allWeightsBox.Size = new System.Drawing.Size(194, 17);
+            this.allWeightsBox.TabIndex = 0;
+            this.allWeightsBox.Text = "Изменение всех весов топологии ";
+            this.allWeightsBox.UseVisualStyleBackColor = true;
+            this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
+            // 
+            // index
+            // 
+            this.index.HeaderText = "Индекс";
+            this.index.Name = "index";
+            this.index.Width = 40;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Вес";
+            this.value.Name = "value";
+            // 
+            // Valid
+            // 
+            this.Valid.HeaderText = "Ошибка";
+            this.Valid.Name = "Valid";
+            this.Valid.Width = 60;
             // 
             // Column5
             // 
@@ -645,12 +603,6 @@ namespace Neural
             this.probabilisticCol.HeaderText = "Валидация(вер.)";
             this.probabilisticCol.Name = "probabilisticCol";
             this.probabilisticCol.Width = 117;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Алгоритм";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 80;
             // 
             // Column9
             // 
@@ -677,7 +629,7 @@ namespace Neural
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "LearnANNForm";
-            this.Text = "ANNBuilder PullWeights v1.0.1";
+            this.Text = "ANNBuilder PullWeights v1.1.2";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -724,21 +676,12 @@ namespace Neural
         private TextBox neuronsBox;
         private Label label11;
         private DataGridView lastRunsGridView;
-        private GroupBox groupBox6;
-        private TextBox maxIterationsBox;
-        private Label label14;
-        private TextBox maxNeuronsInLayerBox;
-        private Label label13;
-        private TextBox validationLevelBox;
-        private Label label12;
         private ToolStripMenuItem crossValidToolStripMenuItem;
         private IContainer components;
         private OpenFileDialog openFileDialog1;
         private Label pLabel;
         private TextBox probabilisticValidBox;
         private DataGridView weightsView;
-        private DataGridViewTextBoxColumn value;
-        private DataGridViewTextBoxColumn Valid;
         private Label label9;
         private Label label7;
         private Label label1;
@@ -747,10 +690,14 @@ namespace Neural
         private TextBox minWeightValueBox;
         private TextBox maxWeightValueBox;
         private Label label10;
+        private DataGridViewTextBoxColumn index;
+        private DataGridViewTextBoxColumn value;
+        private DataGridViewTextBoxColumn Valid;
+        private GroupBox groupBox6;
+        private CheckBox allWeightsBox;
         private DataGridViewTextBoxColumn Column5;
         private DataGridViewTextBoxColumn Column7;
         private DataGridViewTextBoxColumn probabilisticCol;
-        private DataGridViewTextBoxColumn Column8;
         private DataGridViewTextBoxColumn Column9;
         private DataGridViewTextBoxColumn Column10;
 

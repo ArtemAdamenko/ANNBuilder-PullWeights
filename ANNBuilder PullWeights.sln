@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANNBuilder PullWeights v1.0.0", "ANNBuilder PullWeights v1.0.0\ANNBuilder PullWeights v1.0.0.csproj", "{E43E8544-3355-45B6-A79A-D5175B9E45A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANNBuilder PullWeights", "ANNBuilder PullWeights v1.0.0\ANNBuilder PullWeights.csproj", "{E43E8544-3355-45B6-A79A-D5175B9E45A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

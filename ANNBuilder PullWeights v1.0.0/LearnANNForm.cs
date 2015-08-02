@@ -44,9 +44,6 @@ namespace Neural
         private int[] neuronsAndLayers;
         private int[] classes;
         List<int> classesList = new List<int>();
-        private double validLevel = 95;
-        private int maxIterations = 500;
-        private int maxNeuronsInLayer = 10;
 
         private Thread workerThread = null;
         private bool needToStop = false;
@@ -107,9 +104,6 @@ namespace Neural
         private void UpdateSettings()
         {
             this.alphaBox.Text = alpha.ToString();
-            this.validationLevelBox.Text = validLevel.ToString();
-            this.maxIterationsBox.Text = maxIterations.ToString();
-            this.maxNeuronsInLayerBox.Text = maxNeuronsInLayer.ToString();
             this.randomCountWeightsBox.Text = randomWeightsCount.ToString();
             this.weightsChangeBox.Text = weightChange.ToString();
             this.maxWeightValueBox.Text = maxWeightValue.ToString();
@@ -233,47 +227,17 @@ namespace Neural
             alphaBox.Invoke(new Action(() => alphaBox.Enabled = enable));
             startButton.Invoke(new Action(() => startButton.Enabled = enable));
             stopButton.Invoke(new Action(() => stopButton.Enabled = !enable));
-            validationLevelBox.Invoke(new Action(() => validationLevelBox.Enabled = enable));
-            maxIterationsBox.Invoke(new Action(() => maxIterationsBox.Enabled = enable));
-            maxNeuronsInLayerBox.Invoke(new Action(() => maxNeuronsInLayerBox.Enabled = enable));
             minWeightValueBox.Invoke(new Action(() => minWeightValueBox.Enabled = enable));
             maxWeightValueBox.Invoke(new Action(() => maxWeightValueBox.Enabled = enable));
             weightsChangeBox.Invoke(new Action(() => weightsChangeBox.Enabled = enable));
             randomCountWeightsBox.Invoke(new Action(() => randomCountWeightsBox.Enabled = enable));
+            neuronsBox.Invoke(new Action(() => neuronsBox.Enabled = enable));
 
         }
 
         // On button "Start"
         private void startButton_Click(object sender, System.EventArgs e)
         {
-
-            // get learning rate
-            try
-            {
-                validLevel = Math.Max(0.0, Math.Min(100, double.Parse(validationLevelBox.Text)));
-            }
-            catch
-            {
-                validLevel = 95;
-            }
-            // get learning rate
-            try
-            {
-                maxIterations = Math.Max(0, Math.Min(100000, int.Parse(maxIterationsBox.Text)));
-            }
-            catch
-            {
-                maxIterations = 1000;
-            }
-            // get learning rate
-            try
-            {
-                maxNeuronsInLayer = Math.Max(1, Math.Min(1000, int.Parse(maxNeuronsInLayerBox.Text)));
-            }
-            catch
-            {
-                maxNeuronsInLayer = 5;
-            }
             // get alpha
             try
             {
@@ -303,7 +267,7 @@ namespace Neural
                 neuronsAndLayers = new int[1];
                 neuronsAndLayers[0] = 2;
             }
-            randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
+
             weightChange = Double.Parse(weightsChangeBox.Text);
             maxWeightValue = Double.Parse(maxWeightValueBox.Text);
             minWeightValue = Double.Parse(minWeightValueBox.Text);
@@ -343,7 +307,7 @@ namespace Neural
 
             this.lastRunsGridView.Invoke(
                             new Action(() =>
-                                lastRunsGridView.Rows.Add(this.iterations.ToString(), this.error.ToString(), (this.moduleValidateError).ToString(), (this.probabilisticValidateError).ToString(),
+                                lastRunsGridView.Rows.Add(this.iterations.ToString(), (this.moduleValidateError).ToString(), (this.probabilisticValidateError).ToString(),
                                 topology, this.alpha.ToString())
                                 ));
         }
@@ -444,18 +408,9 @@ namespace Neural
             zedGraphControl1.GraphPane.CurveList[2].Clear();
             zedGraphControl1.AxisChange();
 
-            //int trainingCount = 15;
-
             Random rnd = new Random();
 
-            List<String> list = ANNUtils.getAvailableWeights(network);
-            List<String> trainingWeights = new List<String>();
-            for (int i = 0; i < randomWeightsCount; i++)
-            {
-                int rndWeight = rnd.Next(0, list.Count - 1);
-                trainingWeights.Add(list[rndWeight]);
-                list.RemoveAt(rndWeight);
-            }
+            List<String> trainingWeights = createListWeights();
 
             int currentWeight = 0;
             String[] signature = new String[3];
@@ -470,80 +425,8 @@ namespace Neural
             double initialValue = 0;
             // loop
             while (!needToStop)
-            {
-                if (maxIterations != 0)
-                {
-                    if ((iterations >= maxIterations) && (this.error < validLevel))
-                    {
-                        recordNeuroNet();   
-                        int potentialLayer = -1;
-
-                        //search free layer for add neuron
-                        for (int hiddenLayer = 0; hiddenLayer < network.Layers.Length - 1; hiddenLayer++)
-                        {
-                            if (network.Layers[hiddenLayer].Neurons.Length < maxNeuronsInLayer)
-                            {
-                                potentialLayer = hiddenLayer;
-                                break;
-                            }
-                        }
-                        //layers full, add new free layer
-                        if (potentialLayer == -1)
-                        {
-                            int[] tempNet = new int[network.Layers.Length + 1];
-                            int i = 0;
-                            for (i = 0; i < network.Layers.Length - 1; i++)
-                            {
-                                tempNet[i] = network.Layers[i].Neurons.Length;
-                            }
-                            tempNet[i] = 1; // new layer before last layer
-                            tempNet[i + 1] = network.Output.Length; // last layer in end
-                            createLearn(tempNet);
-                        }
-                        else if (potentialLayer != -1)
-                        {
-                            int[] tempNet = new int[network.Layers.Length];
-                            int i = 0;
-                            int newCntNeurons = 0;
-                            for (i = 0; i < network.Layers.Length; i++)
-                            {
-                                if (i == potentialLayer)
-                                {
-                                    newCntNeurons = network.Layers[i].Neurons.Length + 1;
-                                    tempNet[i] = newCntNeurons;
-                                }
-                                else
-                                {
-                                    tempNet[i] = network.Layers[i].Neurons.Length;
-                                }
-
-                            }
-                            createLearn(tempNet);
-                        }
-
-
-                        zedGraphControl1.Invoke(new Action(() => zedGraphControl1.GraphPane.CurveList[0].Clear()));
-                        zedGraphControl1.Invoke(new Action(() => zedGraphControl1.GraphPane.CurveList[1].Clear()));
-                        zedGraphControl1.Invoke(new Action(() => zedGraphControl1.GraphPane.CurveList[2].Clear()));
-                        iterations = 1;
-                    }
-                    else if (iterations >= maxIterations && this.error > validLevel)
-                    {
-                        recordNeuroNet();
-                        needToStop = true;
-                        break;
-                    }
-                }
-                else if (maxIterations == 0 && this.error > validLevel)
-                {
-                    recordNeuroNet();
-                    needToStop = true;
-                    break;
-                }
-                // run epoch of learning procedure
-                //error = (1 - (teacher.RunEpoch(this.input, this.output) / this.input.GetLength(0))) * 100;
-
-                
+            {             
+                //run new weight for changes
                 if (signature[0] == null)
                 {
                     signature = trainingWeights[currentWeight].Split(':');
@@ -553,41 +436,53 @@ namespace Neural
                     value = network.Layers[layer].Neurons[neuron].Weights[weight];
                     initialValue = network.Layers[layer].Neurons[neuron].Weights[weight];
                 }
+
+                //new value better the old
                 if (lastValidation <= moduleValidateError)
                 {
                     lastValidation = moduleValidateError;
                     lastValue = value;
                 }
+
+                //adds new row for gridView
                 if (weightsView.Rows.Count < currentWeight + 2)
                 {
-                    weightsView.Invoke(new Action(() => weightsView.Rows.Add(value)));
+                    weightsView.Invoke(new Action(() => weightsView.Rows.Add()));
                 }
 
+                //current weights != old weight
+                if (weightsView.Rows[currentWeight].Cells[0].Value != trainingWeights[currentWeight])
+                {
+                    weightsView.Rows[currentWeight].Cells[0].Value = trainingWeights[currentWeight];
+                    weightsView.Rows[currentWeight].Cells[1].Value = value;
+                }
+
+                //sum to greater order
                 if (value <= maxWeightValue && order == 1)
                 {
                     value += weightChange;
-                    weightsView.Rows[currentWeight].Cells[0].Value = value;
+                    weightsView.Rows[currentWeight].Cells[1].Value = value;
 
                 }
+                //limit sum
                 else if (value >= maxWeightValue)
                 {
                     order = -1;
                     ++check;
                 }
+                //sum to less order
                 if (value >= minWeightValue && order == -1)
                 {
                     value -= weightChange;
-                    weightsView.Rows[currentWeight].Cells[0].Value = value;
+                    weightsView.Rows[currentWeight].Cells[1].Value = value;
                 }
+                //limit sum
                 else if(value <= minWeightValue)
                 {
                     order = 1;
                     ++check;
                 }
-
-
-
-
+                //if current weight changes ends
                 if (check == 2)
                 {
                     if (lastValidation == 0)
@@ -596,8 +491,8 @@ namespace Neural
 
                     }
                     network.Layers[layer].Neurons[neuron].Weights[weight] = lastValue;
-                    weightsView.Rows[currentWeight].Cells[0].Value = lastValue;
-                    weightsView.Rows[currentWeight].Cells[1].Value = lastValidation;
+                    weightsView.Rows[currentWeight].Cells[1].Value = lastValue;
+                    weightsView.Rows[currentWeight].Cells[2].Value = lastValidation;
                     signature[0] = null;
                     
                     lastValidation = 0;
@@ -605,18 +500,16 @@ namespace Neural
                     check = 0;
                     if (currentWeight == randomWeightsCount - 1)
                     {
-                        list = ANNUtils.getAvailableWeights(network);
-                        trainingWeights = new List<String>();
-                        for (int i = 0; i < randomWeightsCount; i++)
-                        {
-                            int rndWeight = rnd.Next(0, list.Count - 1);
-                            trainingWeights.Add(list[rndWeight]);
-                            list.RemoveAt(rndWeight);
-                        }
+                        trainingWeights = createListWeights();
                         currentWeight = 0;
                     }
-                    currentWeight++;
+                    else
+                    {
+                        currentWeight++;
+                    }
+                    
                 }
+                //changes weights value
                 else
                 {
                     network.Layers[layer].Neurons[neuron].Weights[weight] = value;
@@ -676,6 +569,37 @@ namespace Neural
             // enable settings controls
             EnableControls(true);
 
+        }
+
+        //create list of weights for changes
+        private List<String> createListWeights()
+        {
+            if (this.allWeightsBox.Checked == true)
+            {
+                randomWeightsCount = ANNUtils.getCountOfWeights(network);
+            }
+            else
+            {
+                randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
+            }
+            Random rnd = new Random();
+
+            List<String> list = ANNUtils.getAvailableWeights(network);
+            List<String> trainingWeights = new List<String>();
+            if (this.allWeightsBox.Checked == true)
+            {
+                trainingWeights = list;
+            }
+            else
+            {
+                for (int i = 0; i < randomWeightsCount; i++)
+                {
+                    int rndWeight = rnd.Next(0, list.Count - 1);
+                    trainingWeights.Add(list[rndWeight]);
+                    list.RemoveAt(rndWeight);
+                }
+            }
+            return trainingWeights;
         }
 
         //валидация по модулю
@@ -834,6 +758,11 @@ namespace Neural
 
             this.getTrainDataForClass();
 
+        }
+
+        private void allWeightsBox_CheckedChanged(object sender, EventArgs e)
+        {
+            randomCountWeightsBox.Enabled = !randomCountWeightsBox.Enabled;
         }
     }
 }
