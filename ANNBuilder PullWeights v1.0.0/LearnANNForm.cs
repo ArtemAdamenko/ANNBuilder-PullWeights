@@ -268,9 +268,11 @@ namespace Neural
                 neuronsAndLayers[0] = 2;
             }
 
+            randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
             weightChange = Double.Parse(weightsChangeBox.Text);
             maxWeightValue = Double.Parse(maxWeightValueBox.Text);
             minWeightValue = Double.Parse(minWeightValueBox.Text);
+            
             // update settings controls
             UpdateSettings();
 
@@ -280,6 +282,7 @@ namespace Neural
             // run worker thread
             needToStop = false;
             workerThread = new Thread(new ThreadStart(SearchSolution));
+
             workerThread.Start();
         }
 
@@ -498,9 +501,9 @@ namespace Neural
                     lastValidation = 0;
                     lastValue = 0;
                     check = 0;
-                    if (currentWeight == randomWeightsCount - 1)
+                    if (currentWeight == trainingWeights.Count - 1)
                     {
-                        trainingWeights = createListWeights();
+                        trainingWeights = createListWeights(trainingWeights);
                         currentWeight = 0;
                     }
                     else
@@ -572,34 +575,41 @@ namespace Neural
         }
 
         //create list of weights for changes
-        private List<String> createListWeights()
+        private List<String> createListWeights(List<String> weights = null)
         {
-            if (this.allWeightsBox.Checked == true)
-            {
-                randomWeightsCount = ANNUtils.getCountOfWeights(network);
-            }
-            else
-            {
-                randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
-            }
-            Random rnd = new Random();
-
-            List<String> list = ANNUtils.getAvailableWeights(network);
             List<String> trainingWeights = new List<String>();
+            List<String> list = ANNUtils.getAvailableWeights(network);
+
             if (this.allWeightsBox.Checked == true)
             {
                 trainingWeights = list;
+                return trainingWeights;
             }
             else
             {
+                Console.WriteLine(randomCountWeightsBox.Text);
+                randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
+            }
+
+            if (this.repeatPullBox.Checked != true || weights == null)
+            {
+                Random rnd = new Random();
+
+
                 for (int i = 0; i < randomWeightsCount; i++)
                 {
                     int rndWeight = rnd.Next(0, list.Count - 1);
                     trainingWeights.Add(list[rndWeight]);
                     list.RemoveAt(rndWeight);
                 }
+                return trainingWeights;
             }
-            return trainingWeights;
+            else
+            {
+                return weights;
+            }
+
+            
         }
 
         //валидация по модулю
@@ -763,6 +773,12 @@ namespace Neural
         private void allWeightsBox_CheckedChanged(object sender, EventArgs e)
         {
             randomCountWeightsBox.Enabled = !randomCountWeightsBox.Enabled;
+            repeatPullBox.Enabled = !repeatPullBox.Enabled;
+        }
+
+        private void repeatPullBox_CheckedChanged(object sender, EventArgs e)
+        {
+            allWeightsBox.Enabled = !allWeightsBox.Enabled;
         }
     }
 }

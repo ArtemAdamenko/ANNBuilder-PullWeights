@@ -89,20 +89,21 @@ namespace Neural
             this.loadTrainDataButton = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.weightsView = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lastRunsGridView = new System.Windows.Forms.DataGridView();
-            this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.allWeightsBox = new System.Windows.Forms.CheckBox();
             this.index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Valid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lastRunsGridView = new System.Windows.Forms.DataGridView();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.probabilisticCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.allWeightsBox = new System.Windows.Forms.CheckBox();
+            this.repeatPullBox = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -500,6 +501,23 @@ namespace Neural
             this.weightsView.Size = new System.Drawing.Size(203, 569);
             this.weightsView.TabIndex = 6;
             // 
+            // index
+            // 
+            this.index.HeaderText = "Индекс";
+            this.index.Name = "index";
+            this.index.Width = 40;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Вес";
+            this.value.Name = "value";
+            // 
+            // Valid
+            // 
+            this.Valid.HeaderText = "Ошибка";
+            this.Valid.Name = "Valid";
+            this.Valid.Width = 60;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lastRunsGridView);
@@ -526,65 +544,6 @@ namespace Neural
             this.lastRunsGridView.RowHeadersVisible = false;
             this.lastRunsGridView.Size = new System.Drawing.Size(462, 207);
             this.lastRunsGridView.TabIndex = 0;
-            // 
-            // zedGraphControl1
-            // 
-            this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.zedGraphControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zedGraphControl1.Location = new System.Drawing.Point(6, 13);
-            this.zedGraphControl1.Name = "zedGraphControl1";
-            this.zedGraphControl1.ScrollGrace = 0D;
-            this.zedGraphControl1.ScrollMaxX = 0D;
-            this.zedGraphControl1.ScrollMaxY = 0D;
-            this.zedGraphControl1.ScrollMaxY2 = 0D;
-            this.zedGraphControl1.ScrollMinX = 0D;
-            this.zedGraphControl1.ScrollMinY = 0D;
-            this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(468, 334);
-            this.zedGraphControl1.TabIndex = 1;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.allWeightsBox);
-            this.groupBox6.Location = new System.Drawing.Point(707, 297);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(195, 144);
-            this.groupBox6.TabIndex = 21;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Опции";
-            // 
-            // allWeightsBox
-            // 
-            this.allWeightsBox.AutoSize = true;
-            this.allWeightsBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.allWeightsBox.Location = new System.Drawing.Point(7, 20);
-            this.allWeightsBox.Name = "allWeightsBox";
-            this.allWeightsBox.Size = new System.Drawing.Size(194, 17);
-            this.allWeightsBox.TabIndex = 0;
-            this.allWeightsBox.Text = "Изменение всех весов топологии ";
-            this.allWeightsBox.UseVisualStyleBackColor = true;
-            this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
-            // 
-            // index
-            // 
-            this.index.HeaderText = "Индекс";
-            this.index.Name = "index";
-            this.index.Width = 40;
-            // 
-            // value
-            // 
-            this.value.HeaderText = "Вес";
-            this.value.Name = "value";
-            // 
-            // Valid
-            // 
-            this.Valid.HeaderText = "Ошибка";
-            this.Valid.Name = "Valid";
-            this.Valid.Width = 60;
             // 
             // Column5
             // 
@@ -616,6 +575,61 @@ namespace Neural
             this.Column10.Name = "Column10";
             this.Column10.Width = 65;
             // 
+            // zedGraphControl1
+            // 
+            this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.zedGraphControl1.Location = new System.Drawing.Point(6, 13);
+            this.zedGraphControl1.Name = "zedGraphControl1";
+            this.zedGraphControl1.ScrollGrace = 0D;
+            this.zedGraphControl1.ScrollMaxX = 0D;
+            this.zedGraphControl1.ScrollMaxY = 0D;
+            this.zedGraphControl1.ScrollMaxY2 = 0D;
+            this.zedGraphControl1.ScrollMinX = 0D;
+            this.zedGraphControl1.ScrollMinY = 0D;
+            this.zedGraphControl1.ScrollMinY2 = 0D;
+            this.zedGraphControl1.Size = new System.Drawing.Size(468, 334);
+            this.zedGraphControl1.TabIndex = 1;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.repeatPullBox);
+            this.groupBox6.Controls.Add(this.allWeightsBox);
+            this.groupBox6.Location = new System.Drawing.Point(707, 297);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(195, 144);
+            this.groupBox6.TabIndex = 21;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Опции";
+            // 
+            // allWeightsBox
+            // 
+            this.allWeightsBox.AutoSize = true;
+            this.allWeightsBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.allWeightsBox.Location = new System.Drawing.Point(7, 20);
+            this.allWeightsBox.Name = "allWeightsBox";
+            this.allWeightsBox.Size = new System.Drawing.Size(194, 17);
+            this.allWeightsBox.TabIndex = 0;
+            this.allWeightsBox.Text = "Изменение всех весов топологии ";
+            this.allWeightsBox.UseVisualStyleBackColor = true;
+            this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
+            // 
+            // repeatPullBox
+            // 
+            this.repeatPullBox.AutoSize = true;
+            this.repeatPullBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.repeatPullBox.Location = new System.Drawing.Point(7, 43);
+            this.repeatPullBox.Name = "repeatPullBox";
+            this.repeatPullBox.Size = new System.Drawing.Size(184, 17);
+            this.repeatPullBox.TabIndex = 1;
+            this.repeatPullBox.Text = "Повторное измен. тех же весов";
+            this.repeatPullBox.UseVisualStyleBackColor = true;
+            this.repeatPullBox.CheckedChanged += new System.EventHandler(this.repeatPullBox_CheckedChanged);
+            // 
             // LearnANNForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
@@ -629,7 +643,7 @@ namespace Neural
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "LearnANNForm";
-            this.Text = "ANNBuilder PullWeights v1.1.2";
+            this.Text = "ANNBuilder PullWeights v1.2.3";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -700,6 +714,7 @@ namespace Neural
         private DataGridViewTextBoxColumn probabilisticCol;
         private DataGridViewTextBoxColumn Column9;
         private DataGridViewTextBoxColumn Column10;
+        private CheckBox repeatPullBox;
 
     }
 }
