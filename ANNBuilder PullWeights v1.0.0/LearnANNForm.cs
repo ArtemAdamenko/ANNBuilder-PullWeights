@@ -32,6 +32,7 @@ namespace Neural
 
         private double alpha = 2.0;
         private int iterations = 0;
+        private int loops = 1;
         private double weightChange = 0;
         private int randomWeightsCount = 0;
         private double maxWeightValue = 0;
@@ -108,6 +109,7 @@ namespace Neural
             this.weightsChangeBox.Text = weightChange.ToString();
             this.maxWeightValueBox.Text = maxWeightValue.ToString();
             this.minWeightValueBox.Text = minWeightValue.ToString();
+            this.limitRepeatBox.Text = loops.ToString();
 
         }
 
@@ -232,6 +234,7 @@ namespace Neural
             weightsChangeBox.Invoke(new Action(() => weightsChangeBox.Enabled = enable));
             randomCountWeightsBox.Invoke(new Action(() => randomCountWeightsBox.Enabled = enable));
             neuronsBox.Invoke(new Action(() => neuronsBox.Enabled = enable));
+            limitRepeatBox.Invoke(new Action(() => limitRepeatBox.Enabled = enable));
 
         }
 
@@ -272,7 +275,7 @@ namespace Neural
             weightChange = Double.Parse(weightsChangeBox.Text);
             maxWeightValue = Double.Parse(maxWeightValueBox.Text);
             minWeightValue = Double.Parse(minWeightValueBox.Text);
-            
+            loops = Int32.Parse(limitRepeatBox.Text);
             // update settings controls
             UpdateSettings();
 
@@ -401,7 +404,6 @@ namespace Neural
 
             createLearn(neuronsAndLayers);
             // iterations
-            this.iterations = 1;
             this.error = 0.0;
             this.moduleValidateError = 0.0;
             this.probabilisticValidateError = 0.0;
@@ -414,6 +416,10 @@ namespace Neural
             Random rnd = new Random();
 
             List<String> trainingWeights = createListWeights();
+            if (sortByNumBox.Checked == true)
+            {
+                trainingWeights.Sort();
+            }
 
             int currentWeight = 0;
             String[] signature = new String[3];
@@ -422,6 +428,7 @@ namespace Neural
             int weight = 0;
             int order = 1;
             int check = 0;
+            int currentIteration = 1;
             double lastValidation = 0;
             double lastValue = 0;
             double value = 0;
@@ -503,8 +510,21 @@ namespace Neural
                     check = 0;
                     if (currentWeight == trainingWeights.Count - 1)
                     {
-                        trainingWeights = createListWeights(trainingWeights);
-                        currentWeight = 0;
+                        if (currentIteration < this.loops)
+                        {
+                            trainingWeights = createListWeights(trainingWeights);
+                            if (sortByNumBox.Checked == true && repeatPullBox.Checked != true)
+                            {
+                                trainingWeights.Sort();
+                            }
+                            currentWeight = 0;
+                            currentIteration++;
+                        }
+                        else
+                        {
+                            needToStop = true;
+                        }
+
                     }
                     else
                     {
@@ -587,7 +607,6 @@ namespace Neural
             }
             else
             {
-                Console.WriteLine(randomCountWeightsBox.Text);
                 randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
             }
 
@@ -753,9 +772,6 @@ namespace Neural
             return;
         }
 
-
-        //загрузка формы
-
         //запуск кросс-валидации
         private void crossValidToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -774,6 +790,7 @@ namespace Neural
         {
             randomCountWeightsBox.Enabled = !randomCountWeightsBox.Enabled;
             repeatPullBox.Enabled = !repeatPullBox.Enabled;
+            sortByNumBox.Enabled = !sortByNumBox.Enabled;
         }
 
         private void repeatPullBox_CheckedChanged(object sender, EventArgs e)

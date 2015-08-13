@@ -102,8 +102,11 @@ namespace Neural
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.allWeightsBox = new System.Windows.Forms.CheckBox();
             this.repeatPullBox = new System.Windows.Forms.CheckBox();
+            this.allWeightsBox = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.limitRepeatBox = new System.Windows.Forms.TextBox();
+            this.sortByNumBox = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -170,7 +173,7 @@ namespace Neural
             this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox3.Location = new System.Drawing.Point(707, 29);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(195, 262);
+            this.groupBox3.Size = new System.Drawing.Size(200, 262);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Настройки";
@@ -409,7 +412,7 @@ namespace Neural
             this.выборкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(906, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(912, 24);
             this.menuStrip1.TabIndex = 19;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -597,32 +600,23 @@ namespace Neural
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.sortByNumBox);
+            this.groupBox6.Controls.Add(this.limitRepeatBox);
+            this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.repeatPullBox);
             this.groupBox6.Controls.Add(this.allWeightsBox);
             this.groupBox6.Location = new System.Drawing.Point(707, 297);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(195, 144);
+            this.groupBox6.Size = new System.Drawing.Size(200, 144);
             this.groupBox6.TabIndex = 21;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Опции";
-            // 
-            // allWeightsBox
-            // 
-            this.allWeightsBox.AutoSize = true;
-            this.allWeightsBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.allWeightsBox.Location = new System.Drawing.Point(7, 20);
-            this.allWeightsBox.Name = "allWeightsBox";
-            this.allWeightsBox.Size = new System.Drawing.Size(194, 17);
-            this.allWeightsBox.TabIndex = 0;
-            this.allWeightsBox.Text = "Изменение всех весов топологии ";
-            this.allWeightsBox.UseVisualStyleBackColor = true;
-            this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
             // 
             // repeatPullBox
             // 
             this.repeatPullBox.AutoSize = true;
             this.repeatPullBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.repeatPullBox.Location = new System.Drawing.Point(7, 43);
+            this.repeatPullBox.Location = new System.Drawing.Point(6, 65);
             this.repeatPullBox.Name = "repeatPullBox";
             this.repeatPullBox.Size = new System.Drawing.Size(184, 17);
             this.repeatPullBox.TabIndex = 1;
@@ -630,10 +624,50 @@ namespace Neural
             this.repeatPullBox.UseVisualStyleBackColor = true;
             this.repeatPullBox.CheckedChanged += new System.EventHandler(this.repeatPullBox_CheckedChanged);
             // 
+            // allWeightsBox
+            // 
+            this.allWeightsBox.AutoSize = true;
+            this.allWeightsBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.allWeightsBox.Location = new System.Drawing.Point(6, 42);
+            this.allWeightsBox.Name = "allWeightsBox";
+            this.allWeightsBox.Size = new System.Drawing.Size(191, 17);
+            this.allWeightsBox.TabIndex = 0;
+            this.allWeightsBox.Text = "Изменение всех весов топологии";
+            this.allWeightsBox.UseVisualStyleBackColor = true;
+            this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 17);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(112, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Кол-во повторений: ";
+            // 
+            // limitRepeatBox
+            // 
+            this.limitRepeatBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.limitRepeatBox.Location = new System.Drawing.Point(115, 15);
+            this.limitRepeatBox.Name = "limitRepeatBox";
+            this.limitRepeatBox.Size = new System.Drawing.Size(72, 21);
+            this.limitRepeatBox.TabIndex = 3;
+            // 
+            // sortByNumBox
+            // 
+            this.sortByNumBox.AutoSize = true;
+            this.sortByNumBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sortByNumBox.Location = new System.Drawing.Point(6, 88);
+            this.sortByNumBox.Name = "sortByNumBox";
+            this.sortByNumBox.Size = new System.Drawing.Size(119, 17);
+            this.sortByNumBox.TabIndex = 4;
+            this.sortByNumBox.Text = "Упоряд. по номеру";
+            this.sortByNumBox.UseVisualStyleBackColor = true;
+            // 
             // LearnANNForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
-            this.ClientSize = new System.Drawing.Size(906, 621);
+            this.ClientSize = new System.Drawing.Size(912, 621);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox5);
@@ -643,7 +677,7 @@ namespace Neural
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "LearnANNForm";
-            this.Text = "ANNBuilder PullWeights v1.2.3";
+            this.Text = "ANNBuilder PullWeights v1.3.3";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -715,6 +749,8 @@ namespace Neural
         private DataGridViewTextBoxColumn Column9;
         private DataGridViewTextBoxColumn Column10;
         private CheckBox repeatPullBox;
-
+        private TextBox limitRepeatBox;
+        private Label label3;
+        private CheckBox sortByNumBox;
     }
 }
