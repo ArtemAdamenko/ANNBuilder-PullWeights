@@ -7,6 +7,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Threading;
+using System.Linq;
 using System.Collections;
 using Accord.Neuro;
 using Accord.Math;
@@ -420,6 +421,10 @@ namespace Neural
             {
                 trainingWeights.Sort();
             }
+            else if(sortByModuleAscBox.Checked == true)
+            {
+                trainingWeights = sortByModuleAsc(trainingWeights, network);
+            }
 
             int currentWeight = 0;
             String[] signature = new String[3];
@@ -435,7 +440,12 @@ namespace Neural
             double initialValue = 0;
             // loop
             while (!needToStop)
-            {             
+            {
+                //adds new row for gridView
+                if (weightsView.Rows.Count < currentWeight + 2)
+                {
+                    weightsView.Invoke(new Action(() => weightsView.Rows.Add()));
+                }
                 //run new weight for changes
                 if (signature[0] == null)
                 {
@@ -445,8 +455,8 @@ namespace Neural
                     weight = Int32.Parse(signature[2]);
                     value = network.Layers[layer].Neurons[neuron].Weights[weight];
                     initialValue = network.Layers[layer].Neurons[neuron].Weights[weight];
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[3].Value = initialValue));
                 }
-
                 //new value better the old
                 if (lastValidation <= moduleValidateError)
                 {
@@ -454,24 +464,20 @@ namespace Neural
                     lastValue = value;
                 }
 
-                //adds new row for gridView
-                if (weightsView.Rows.Count < currentWeight + 2)
-                {
-                    weightsView.Invoke(new Action(() => weightsView.Rows.Add()));
-                }
+
 
                 //current weights != old weight
                 if (weightsView.Rows[currentWeight].Cells[0].Value != trainingWeights[currentWeight])
                 {
-                    weightsView.Rows[currentWeight].Cells[0].Value = trainingWeights[currentWeight];
-                    weightsView.Rows[currentWeight].Cells[1].Value = value;
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[0].Value = trainingWeights[currentWeight]));
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[1].Value = value));
                 }
 
                 //sum to greater order
                 if (value <= maxWeightValue && order == 1)
                 {
                     value += weightChange;
-                    weightsView.Rows[currentWeight].Cells[1].Value = value;
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[1].Value = value));
 
                 }
                 //limit sum
@@ -484,7 +490,7 @@ namespace Neural
                 if (value >= minWeightValue && order == -1)
                 {
                     value -= weightChange;
-                    weightsView.Rows[currentWeight].Cells[1].Value = value;
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[1].Value = value));
                 }
                 //limit sum
                 else if(value <= minWeightValue)
@@ -501,8 +507,9 @@ namespace Neural
 
                     }
                     network.Layers[layer].Neurons[neuron].Weights[weight] = lastValue;
-                    weightsView.Rows[currentWeight].Cells[1].Value = lastValue;
-                    weightsView.Rows[currentWeight].Cells[2].Value = lastValidation;
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[1].Value = lastValue));
+                    weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[2].Value = lastValidation));
+
                     signature[0] = null;
                     
                     lastValidation = 0;
@@ -516,6 +523,9 @@ namespace Neural
                             if (sortByNumBox.Checked == true && repeatPullBox.Checked != true)
                             {
                                 trainingWeights.Sort();
+                            }else if(sortByModuleAscBox.Checked == true)
+                            {
+                                trainingWeights = sortByModuleAsc(trainingWeights, network);
                             }
                             currentWeight = 0;
                             currentIteration++;
@@ -592,6 +602,34 @@ namespace Neural
             // enable settings controls
             EnableControls(true);
 
+        }
+
+        private List<string> sortByModuleAsc(List<String> weights, Network network)
+        {
+            List<String> returnList = new List<string>();
+            Dictionary<string, double> topology = new Dictionary<string, double>();
+            int layer, neuron, weight = 0;
+
+            String[] split = new String[3];
+
+            foreach(String key in weights)
+            {
+                split = key.Split(':');
+                layer = Int32.Parse(split[0]);
+                neuron = Int32.Parse(split[1]);
+                weight = Int32.Parse(split[2]);
+
+                topology.Add(key, Math.Abs(network.Layers[layer].Neurons[neuron].Weights[weight]));
+
+            }
+
+            topology = topology.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            foreach(KeyValuePair<string, double> pair in topology)
+            {
+                returnList.Add(pair.Key);
+            }
+            return returnList;
         }
 
         //create list of weights for changes
@@ -796,6 +834,17 @@ namespace Neural
         private void repeatPullBox_CheckedChanged(object sender, EventArgs e)
         {
             allWeightsBox.Enabled = !allWeightsBox.Enabled;
+        }
+
+        private void sortByModuleAscBox_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            sortByNumBox.Enabled = !sortByNumBox.Enabled;
+        }
+
+        private void sortByNumBox_CheckedChanged(object sender, EventArgs e)
+        {
+            sortByModuleAscBox.Enabled = !sortByModuleAscBox.Enabled;
         }
     }
 }
