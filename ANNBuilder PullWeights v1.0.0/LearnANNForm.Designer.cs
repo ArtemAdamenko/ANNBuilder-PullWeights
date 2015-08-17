@@ -89,6 +89,10 @@ namespace Neural
             this.loadTrainDataButton = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.weightsView = new System.Windows.Forms.DataGridView();
+            this.index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.initWeightValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lastRunsGridView = new System.Windows.Forms.DataGridView();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -99,16 +103,21 @@ namespace Neural
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.bySumWeightsBox = new System.Windows.Forms.CheckBox();
+            this.fromInputToOutputBox = new System.Windows.Forms.CheckBox();
+            this.sortByLayersBox = new System.Windows.Forms.CheckBox();
+            this.sortByModuleAscBox = new System.Windows.Forms.CheckBox();
             this.sortByNumBox = new System.Windows.Forms.CheckBox();
             this.limitRepeatBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.repeatPullBox = new System.Windows.Forms.CheckBox();
             this.allWeightsBox = new System.Windows.Forms.CheckBox();
-            this.sortByModuleAscBox = new System.Windows.Forms.CheckBox();
-            this.index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Valid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.initWeightValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.sortSignAbsSumSortBox = new System.Windows.Forms.TextBox();
+            this.sortSignFromToSortBox = new System.Windows.Forms.TextBox();
+            this.sortSignNumSortBox = new System.Windows.Forms.TextBox();
+            this.sortSignAbsSortBox = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -118,6 +127,8 @@ namespace Neural
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lastRunsGridView)).BeginInit();
             this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // label4
@@ -132,7 +143,7 @@ namespace Neural
             // inputCountBox
             // 
             this.inputCountBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.inputCountBox.Location = new System.Drawing.Point(100, 42);
+            this.inputCountBox.Location = new System.Drawing.Point(182, 41);
             this.inputCountBox.Name = "inputCountBox";
             this.inputCountBox.ReadOnly = true;
             this.inputCountBox.Size = new System.Drawing.Size(86, 21);
@@ -141,7 +152,7 @@ namespace Neural
             // fileTextBox
             // 
             this.fileTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.fileTextBox.Location = new System.Drawing.Point(100, 14);
+            this.fileTextBox.Location = new System.Drawing.Point(182, 13);
             this.fileTextBox.Name = "fileTextBox";
             this.fileTextBox.ReadOnly = true;
             this.fileTextBox.Size = new System.Drawing.Size(86, 21);
@@ -175,7 +186,7 @@ namespace Neural
             this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox3.Location = new System.Drawing.Point(742, 29);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 262);
+            this.groupBox3.Size = new System.Drawing.Size(274, 262);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Настройки";
@@ -183,7 +194,7 @@ namespace Neural
             // minWeightValueBox
             // 
             this.minWeightValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.minWeightValueBox.Location = new System.Drawing.Point(99, 236);
+            this.minWeightValueBox.Location = new System.Drawing.Point(181, 235);
             this.minWeightValueBox.Name = "minWeightValueBox";
             this.minWeightValueBox.Size = new System.Drawing.Size(87, 21);
             this.minWeightValueBox.TabIndex = 26;
@@ -191,7 +202,7 @@ namespace Neural
             // maxWeightValueBox
             // 
             this.maxWeightValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxWeightValueBox.Location = new System.Drawing.Point(99, 213);
+            this.maxWeightValueBox.Location = new System.Drawing.Point(181, 212);
             this.maxWeightValueBox.Name = "maxWeightValueBox";
             this.maxWeightValueBox.Size = new System.Drawing.Size(87, 21);
             this.maxWeightValueBox.TabIndex = 25;
@@ -208,7 +219,7 @@ namespace Neural
             // weightsChangeBox
             // 
             this.weightsChangeBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.weightsChangeBox.Location = new System.Drawing.Point(100, 183);
+            this.weightsChangeBox.Location = new System.Drawing.Point(182, 182);
             this.weightsChangeBox.Name = "weightsChangeBox";
             this.weightsChangeBox.Size = new System.Drawing.Size(86, 21);
             this.weightsChangeBox.TabIndex = 23;
@@ -216,7 +227,7 @@ namespace Neural
             // randomCountWeightsBox
             // 
             this.randomCountWeightsBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.randomCountWeightsBox.Location = new System.Drawing.Point(141, 154);
+            this.randomCountWeightsBox.Location = new System.Drawing.Point(223, 153);
             this.randomCountWeightsBox.Name = "randomCountWeightsBox";
             this.randomCountWeightsBox.Size = new System.Drawing.Size(45, 21);
             this.randomCountWeightsBox.TabIndex = 22;
@@ -251,7 +262,7 @@ namespace Neural
             // neuronsBox
             // 
             this.neuronsBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.neuronsBox.Location = new System.Drawing.Point(99, 125);
+            this.neuronsBox.Location = new System.Drawing.Point(181, 124);
             this.neuronsBox.Name = "neuronsBox";
             this.neuronsBox.Size = new System.Drawing.Size(87, 21);
             this.neuronsBox.TabIndex = 18;
@@ -268,7 +279,7 @@ namespace Neural
             // alphaBox
             // 
             this.alphaBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.alphaBox.Location = new System.Drawing.Point(100, 98);
+            this.alphaBox.Location = new System.Drawing.Point(182, 97);
             this.alphaBox.Name = "alphaBox";
             this.alphaBox.Size = new System.Drawing.Size(86, 21);
             this.alphaBox.TabIndex = 12;
@@ -285,7 +296,7 @@ namespace Neural
             // classesBox
             // 
             this.classesBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.classesBox.Location = new System.Drawing.Point(100, 70);
+            this.classesBox.Location = new System.Drawing.Point(182, 69);
             this.classesBox.Name = "classesBox";
             this.classesBox.ReadOnly = true;
             this.classesBox.Size = new System.Drawing.Size(86, 21);
@@ -317,9 +328,9 @@ namespace Neural
             this.groupBox4.Controls.Add(this.moduleValidBox);
             this.groupBox4.Controls.Add(this.currentIterationBox);
             this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Location = new System.Drawing.Point(742, 447);
+            this.groupBox4.Location = new System.Drawing.Point(742, 559);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(195, 107);
+            this.groupBox4.Size = new System.Drawing.Size(274, 107);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Текущая итерация";
@@ -327,7 +338,7 @@ namespace Neural
             // pLabel
             // 
             this.pLabel.AutoSize = true;
-            this.pLabel.Location = new System.Drawing.Point(5, 50);
+            this.pLabel.Location = new System.Drawing.Point(6, 48);
             this.pLabel.Name = "pLabel";
             this.pLabel.Size = new System.Drawing.Size(86, 13);
             this.pLabel.TabIndex = 8;
@@ -336,7 +347,7 @@ namespace Neural
             // probabilisticValidBox
             // 
             this.probabilisticValidBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.probabilisticValidBox.Location = new System.Drawing.Point(119, 48);
+            this.probabilisticValidBox.Location = new System.Drawing.Point(193, 48);
             this.probabilisticValidBox.Name = "probabilisticValidBox";
             this.probabilisticValidBox.Size = new System.Drawing.Size(66, 21);
             this.probabilisticValidBox.TabIndex = 7;
@@ -344,7 +355,7 @@ namespace Neural
             // mLabel
             // 
             this.mLabel.AutoSize = true;
-            this.mLabel.Location = new System.Drawing.Point(4, 83);
+            this.mLabel.Location = new System.Drawing.Point(9, 80);
             this.mLabel.Name = "mLabel";
             this.mLabel.Size = new System.Drawing.Size(77, 13);
             this.mLabel.TabIndex = 6;
@@ -353,7 +364,7 @@ namespace Neural
             // moduleValidBox
             // 
             this.moduleValidBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.moduleValidBox.Location = new System.Drawing.Point(119, 80);
+            this.moduleValidBox.Location = new System.Drawing.Point(193, 80);
             this.moduleValidBox.Name = "moduleValidBox";
             this.moduleValidBox.Size = new System.Drawing.Size(66, 21);
             this.moduleValidBox.TabIndex = 5;
@@ -361,14 +372,14 @@ namespace Neural
             // currentIterationBox
             // 
             this.currentIterationBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.currentIterationBox.Location = new System.Drawing.Point(119, 13);
+            this.currentIterationBox.Location = new System.Drawing.Point(193, 13);
             this.currentIterationBox.Name = "currentIterationBox";
             this.currentIterationBox.Size = new System.Drawing.Size(66, 21);
             this.currentIterationBox.TabIndex = 1;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(19, 17);
+            this.label5.Location = new System.Drawing.Point(9, 17);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 17);
             this.label5.TabIndex = 0;
@@ -400,7 +411,7 @@ namespace Neural
             // 
             this.groupBox5.Controls.Add(this.startButton);
             this.groupBox5.Controls.Add(this.stopButton);
-            this.groupBox5.Location = new System.Drawing.Point(742, 560);
+            this.groupBox5.Location = new System.Drawing.Point(742, 672);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(195, 57);
             this.groupBox5.TabIndex = 11;
@@ -414,7 +425,7 @@ namespace Neural
             this.выборкаToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(954, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1028, 24);
             this.menuStrip1.TabIndex = 19;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -487,7 +498,7 @@ namespace Neural
             this.groupBox2.Controls.Add(this.zedGraphControl1);
             this.groupBox2.Location = new System.Drawing.Point(12, 29);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(724, 595);
+            this.groupBox2.Size = new System.Drawing.Size(724, 688);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Изменение ошибки обучения";
@@ -506,14 +517,37 @@ namespace Neural
             this.weightsView.Name = "weightsView";
             this.weightsView.RowHeadersVisible = false;
             this.weightsView.RowTemplate.Height = 23;
-            this.weightsView.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.weightsView.Size = new System.Drawing.Size(238, 569);
+            this.weightsView.Size = new System.Drawing.Size(238, 669);
             this.weightsView.TabIndex = 6;
+            // 
+            // index
+            // 
+            this.index.HeaderText = "Индекс";
+            this.index.Name = "index";
+            this.index.Width = 69;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Вес";
+            this.value.Name = "value";
+            this.value.Width = 49;
+            // 
+            // Valid
+            // 
+            this.Valid.HeaderText = "Ошибка";
+            this.Valid.Name = "Valid";
+            this.Valid.Width = 72;
+            // 
+            // initWeightValue
+            // 
+            this.initWeightValue.HeaderText = "Нач.значение";
+            this.initWeightValue.Name = "initWeightValue";
+            this.initWeightValue.Width = 102;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lastRunsGridView);
-            this.groupBox1.Location = new System.Drawing.Point(6, 358);
+            this.groupBox1.Location = new System.Drawing.Point(6, 452);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(468, 230);
             this.groupBox1.TabIndex = 5;
@@ -571,7 +605,7 @@ namespace Neural
             // 
             this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.zedGraphControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zedGraphControl1.Location = new System.Drawing.Point(41, 13);
+            this.zedGraphControl1.Location = new System.Drawing.Point(12, 20);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -580,7 +614,7 @@ namespace Neural
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(433, 334);
+            this.zedGraphControl1.Size = new System.Drawing.Size(462, 426);
             this.zedGraphControl1.TabIndex = 1;
             // 
             // openFileDialog1
@@ -589,24 +623,74 @@ namespace Neural
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.sortByModuleAscBox);
-            this.groupBox6.Controls.Add(this.sortByNumBox);
+            this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Controls.Add(this.limitRepeatBox);
             this.groupBox6.Controls.Add(this.label3);
             this.groupBox6.Controls.Add(this.repeatPullBox);
             this.groupBox6.Controls.Add(this.allWeightsBox);
             this.groupBox6.Location = new System.Drawing.Point(742, 297);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(200, 144);
+            this.groupBox6.Size = new System.Drawing.Size(274, 256);
             this.groupBox6.TabIndex = 21;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Опции";
+            // 
+            // bySumWeightsBox
+            // 
+            this.bySumWeightsBox.AutoSize = true;
+            this.bySumWeightsBox.Enabled = false;
+            this.bySumWeightsBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bySumWeightsBox.Location = new System.Drawing.Point(6, 46);
+            this.bySumWeightsBox.Name = "bySumWeightsBox";
+            this.bySumWeightsBox.Size = new System.Drawing.Size(177, 17);
+            this.bySumWeightsBox.TabIndex = 10;
+            this.bySumWeightsBox.Text = "По суммарному значению слоя";
+            this.bySumWeightsBox.UseVisualStyleBackColor = true;
+            this.bySumWeightsBox.CheckedChanged += new System.EventHandler(this.bySumWeightsBox_CheckedChanged);
+            // 
+            // fromInputToOutputBox
+            // 
+            this.fromInputToOutputBox.AutoSize = true;
+            this.fromInputToOutputBox.Enabled = false;
+            this.fromInputToOutputBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fromInputToOutputBox.Location = new System.Drawing.Point(6, 20);
+            this.fromInputToOutputBox.Name = "fromInputToOutputBox";
+            this.fromInputToOutputBox.Size = new System.Drawing.Size(122, 17);
+            this.fromInputToOutputBox.TabIndex = 9;
+            this.fromInputToOutputBox.Text = "От входа к выходу";
+            this.fromInputToOutputBox.UseVisualStyleBackColor = true;
+            this.fromInputToOutputBox.CheckedChanged += new System.EventHandler(this.fromInputToOutputBox_CheckedChanged);
+            // 
+            // sortByLayersBox
+            // 
+            this.sortByLayersBox.AutoSize = true;
+            this.sortByLayersBox.Enabled = false;
+            this.sortByLayersBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sortByLayersBox.Location = new System.Drawing.Point(6, 66);
+            this.sortByLayersBox.Name = "sortByLayersBox";
+            this.sortByLayersBox.Size = new System.Drawing.Size(112, 17);
+            this.sortByLayersBox.TabIndex = 8;
+            this.sortByLayersBox.Text = "Упоряд. по слоям";
+            this.sortByLayersBox.UseVisualStyleBackColor = true;
+            this.sortByLayersBox.CheckedChanged += new System.EventHandler(this.sortByLayersBox_CheckedChanged);
+            // 
+            // sortByModuleAscBox
+            // 
+            this.sortByModuleAscBox.AutoSize = true;
+            this.sortByModuleAscBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sortByModuleAscBox.Location = new System.Drawing.Point(6, 20);
+            this.sortByModuleAscBox.Name = "sortByModuleAscBox";
+            this.sortByModuleAscBox.Size = new System.Drawing.Size(173, 17);
+            this.sortByModuleAscBox.TabIndex = 5;
+            this.sortByModuleAscBox.Text = "Упоряд. по значению модуля";
+            this.sortByModuleAscBox.UseVisualStyleBackColor = true;
+            this.sortByModuleAscBox.CheckedChanged += new System.EventHandler(this.sortByModuleAscBox_CheckedChanged);
             // 
             // sortByNumBox
             // 
             this.sortByNumBox.AutoSize = true;
             this.sortByNumBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sortByNumBox.Location = new System.Drawing.Point(6, 88);
+            this.sortByNumBox.Location = new System.Drawing.Point(6, 43);
             this.sortByNumBox.Name = "sortByNumBox";
             this.sortByNumBox.Size = new System.Drawing.Size(119, 17);
             this.sortByNumBox.TabIndex = 4;
@@ -617,7 +701,7 @@ namespace Neural
             // limitRepeatBox
             // 
             this.limitRepeatBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.limitRepeatBox.Location = new System.Drawing.Point(115, 15);
+            this.limitRepeatBox.Location = new System.Drawing.Point(193, 17);
             this.limitRepeatBox.Name = "limitRepeatBox";
             this.limitRepeatBox.Size = new System.Drawing.Size(72, 21);
             this.limitRepeatBox.TabIndex = 3;
@@ -655,46 +739,80 @@ namespace Neural
             this.allWeightsBox.UseVisualStyleBackColor = true;
             this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
             // 
-            // sortByModuleAscBox
+            // groupBox7
             // 
-            this.sortByModuleAscBox.AutoSize = true;
-            this.sortByModuleAscBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sortByModuleAscBox.Location = new System.Drawing.Point(6, 111);
-            this.sortByModuleAscBox.Name = "sortByModuleAscBox";
-            this.sortByModuleAscBox.Size = new System.Drawing.Size(173, 17);
-            this.sortByModuleAscBox.TabIndex = 5;
-            this.sortByModuleAscBox.Text = "Упоряд. по значению модуля";
-            this.sortByModuleAscBox.UseVisualStyleBackColor = true;
-            this.sortByModuleAscBox.CheckedChanged += new System.EventHandler(this.sortByModuleAscBox_CheckedChanged);
+            this.groupBox7.Controls.Add(this.sortSignFromToSortBox);
+            this.groupBox7.Controls.Add(this.sortSignAbsSumSortBox);
+            this.groupBox7.Controls.Add(this.bySumWeightsBox);
+            this.groupBox7.Controls.Add(this.fromInputToOutputBox);
+            this.groupBox7.Location = new System.Drawing.Point(13, 89);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(240, 69);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Сортировка по слоям";
             // 
-            // index
+            // groupBox8
             // 
-            this.index.HeaderText = "Индекс";
-            this.index.Name = "index";
-            this.index.Width = 69;
+            this.groupBox8.Controls.Add(this.sortSignAbsSortBox);
+            this.groupBox8.Controls.Add(this.sortSignNumSortBox);
+            this.groupBox8.Controls.Add(this.sortByLayersBox);
+            this.groupBox8.Controls.Add(this.groupBox7);
+            this.groupBox8.Controls.Add(this.sortByModuleAscBox);
+            this.groupBox8.Controls.Add(this.sortByNumBox);
+            this.groupBox8.Location = new System.Drawing.Point(6, 88);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(259, 162);
+            this.groupBox8.TabIndex = 12;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Сортировка весов";
             // 
-            // value
+            // sortSignAbsSumSortBox
             // 
-            this.value.HeaderText = "Вес";
-            this.value.Name = "value";
-            this.value.Width = 49;
+            this.sortSignAbsSumSortBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sortSignAbsSumSortBox.Enabled = false;
+            this.sortSignAbsSumSortBox.Location = new System.Drawing.Point(189, 42);
+            this.sortSignAbsSumSortBox.Name = "sortSignAbsSumSortBox";
+            this.sortSignAbsSumSortBox.Size = new System.Drawing.Size(45, 21);
+            this.sortSignAbsSumSortBox.TabIndex = 11;
+            this.sortSignAbsSumSortBox.Text = "1";
+            this.sortSignAbsSumSortBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // Valid
+            // sortSignFromToSortBox
             // 
-            this.Valid.HeaderText = "Ошибка";
-            this.Valid.Name = "Valid";
-            this.Valid.Width = 72;
+            this.sortSignFromToSortBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sortSignFromToSortBox.Enabled = false;
+            this.sortSignFromToSortBox.Location = new System.Drawing.Point(189, 16);
+            this.sortSignFromToSortBox.Name = "sortSignFromToSortBox";
+            this.sortSignFromToSortBox.Size = new System.Drawing.Size(45, 21);
+            this.sortSignFromToSortBox.TabIndex = 12;
+            this.sortSignFromToSortBox.Text = "1";
+            this.sortSignFromToSortBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // initWeightValue
+            // sortSignNumSortBox
             // 
-            this.initWeightValue.HeaderText = "Нач.значение";
-            this.initWeightValue.Name = "initWeightValue";
-            this.initWeightValue.Width = 102;
+            this.sortSignNumSortBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sortSignNumSortBox.Location = new System.Drawing.Point(208, 47);
+            this.sortSignNumSortBox.Name = "sortSignNumSortBox";
+            this.sortSignNumSortBox.Size = new System.Drawing.Size(45, 21);
+            this.sortSignNumSortBox.TabIndex = 12;
+            this.sortSignNumSortBox.Text = "1";
+            this.sortSignNumSortBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // sortSignAbsSortBox
+            // 
+            this.sortSignAbsSortBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sortSignAbsSortBox.Location = new System.Drawing.Point(208, 20);
+            this.sortSignAbsSortBox.Name = "sortSignAbsSortBox";
+            this.sortSignAbsSortBox.Size = new System.Drawing.Size(45, 21);
+            this.sortSignAbsSortBox.TabIndex = 13;
+            this.sortSignAbsSortBox.Text = "1";
+            this.sortSignAbsSortBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // LearnANNForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
-            this.ClientSize = new System.Drawing.Size(954, 621);
+            this.ClientSize = new System.Drawing.Size(1028, 725);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox5);
@@ -704,7 +822,7 @@ namespace Neural
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "LearnANNForm";
-            this.Text = "ANNBuilder PullWeights v1.4.4";
+            this.Text = "ANNBuilder PullWeights v1.5.6";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -719,6 +837,10 @@ namespace Neural
             ((System.ComponentModel.ISupportInitialize)(this.lastRunsGridView)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -781,5 +903,14 @@ namespace Neural
         private DataGridViewTextBoxColumn value;
         private DataGridViewTextBoxColumn Valid;
         private DataGridViewTextBoxColumn initWeightValue;
+        private CheckBox sortByLayersBox;
+        private CheckBox bySumWeightsBox;
+        private CheckBox fromInputToOutputBox;
+        private GroupBox groupBox8;
+        private GroupBox groupBox7;
+        private TextBox sortSignAbsSortBox;
+        private TextBox sortSignNumSortBox;
+        private TextBox sortSignFromToSortBox;
+        private TextBox sortSignAbsSumSortBox;
     }
 }

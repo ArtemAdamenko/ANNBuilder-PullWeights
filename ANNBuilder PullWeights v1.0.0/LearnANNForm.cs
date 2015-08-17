@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
@@ -8,10 +8,10 @@ using System.IO;
 using System.Windows.Forms;
 using System.Threading;
 using System.Linq;
-using System.Collections;
-using Accord.Neuro;
-using Accord.Math;
-using Accord.Neuro.Learning;
+//using System.Collections;
+//using Accord.Neuro;
+//using Accord.Math;
+//using Accord.Neuro.Learning;
 using ZedGraph;
 using OfficeOpenXml;
 
@@ -417,13 +417,29 @@ namespace Neural
             Random rnd = new Random();
 
             List<String> trainingWeights = createListWeights();
+            //SORT BY INDEX
             if (sortByNumBox.Checked == true)
             {
                 trainingWeights.Sort();
+                if (sortSignNumSortBox.Text == "-1")
+                {
+                    trainingWeights.Reverse();
+                }
+                
             }
+            //SORT BY ABS VALUE
             else if(sortByModuleAscBox.Checked == true)
             {
                 trainingWeights = sortByModuleAsc(trainingWeights, network);
+                if (sortSignAbsSortBox.Text == "-1")
+                {
+                    trainingWeights.Reverse();
+                }
+            }
+            //SORT BY LAYERS
+            else if(sortByLayersBox.Checked == true && allWeightsBox.Checked == true)
+            {
+                trainingWeights = sortByLayers(trainingWeights, network);
             }
 
             int currentWeight = 0;
@@ -523,9 +539,21 @@ namespace Neural
                             if (sortByNumBox.Checked == true && repeatPullBox.Checked != true)
                             {
                                 trainingWeights.Sort();
+                                if (sortSignNumSortBox.Text == "-1")
+                                {
+                                    trainingWeights.Reverse();
+                                }
                             }else if(sortByModuleAscBox.Checked == true)
                             {
                                 trainingWeights = sortByModuleAsc(trainingWeights, network);
+                                if (sortSignAbsSortBox.Text == "-1")
+                                {
+                                    trainingWeights.Reverse();
+                                }
+                            }
+                            else if (sortByLayersBox.Checked == true && allWeightsBox.Checked == true)
+                            {
+                                trainingWeights = sortByLayers(trainingWeights, network);
                             }
                             currentWeight = 0;
                             currentIteration++;
@@ -602,6 +630,63 @@ namespace Neural
             // enable settings controls
             EnableControls(true);
 
+        }
+
+
+        private List<String> sortByLayers(List<String> weights, Network network)
+        {
+            List<String> returnList = new List<String>();
+            Dictionary<int, double> totalSum = new Dictionary<int, double>();
+            if (fromInputToOutputBox.Checked == true)
+            {
+                returnList = weights;
+                returnList.Sort();
+
+                if (sortSignFromToSortBox.Text == "-1")
+                {
+                    returnList.Reverse();
+                }
+
+            }else if(bySumWeightsBox.Checked == true)
+            {
+                
+                for (int i = 0; i < network.Layers.Length; i++)
+                {
+                    double absSum = 0;
+                    for (int j = 0; j < network.Layers[i].Neurons.Length; j++)
+                    {
+                        for (int k = 0; k < network.Layers[i].Neurons[j].Weights.Length; k++)
+                        {
+                            absSum += Math.Abs(network.Layers[i].Neurons[j].Weights[k]);
+                        }
+                    }
+                    totalSum.Add(i, absSum);
+                }
+                if (sortSignAbsSumSortBox.Text == "1")
+                {
+                    totalSum = totalSum.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+                }
+
+                if (sortSignAbsSumSortBox.Text == "-1")
+                {
+                    totalSum = totalSum.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+                }
+
+                foreach(KeyValuePair<int, double> pair in totalSum)
+                {
+                    foreach(String weight in weights)
+                    {
+                        int layer = Int32.Parse(weight.Split(':')[0]);
+                        if (layer == pair.Key)
+                        {
+                            returnList.Add(weight);
+                        }
+                    }
+                }
+            }
+
+
+            return returnList;
         }
 
         private List<string> sortByModuleAsc(List<String> weights, Network network)
@@ -828,7 +913,8 @@ namespace Neural
         {
             randomCountWeightsBox.Enabled = !randomCountWeightsBox.Enabled;
             repeatPullBox.Enabled = !repeatPullBox.Enabled;
-            sortByNumBox.Enabled = !sortByNumBox.Enabled;
+            //sortByNumBox.Enabled = !sortByNumBox.Enabled;
+            sortByLayersBox.Enabled = !sortByLayersBox.Enabled;
         }
 
         private void repeatPullBox_CheckedChanged(object sender, EventArgs e)
@@ -840,11 +926,46 @@ namespace Neural
         {
             
             sortByNumBox.Enabled = !sortByNumBox.Enabled;
+            sortSignNumSortBox.Enabled = !sortSignNumSortBox.Enabled;
+            if (allWeightsBox.Checked == true)
+            {
+                sortByLayersBox.Enabled = !sortByLayersBox.Enabled;
+            }
         }
 
         private void sortByNumBox_CheckedChanged(object sender, EventArgs e)
         {
             sortByModuleAscBox.Enabled = !sortByModuleAscBox.Enabled;
+            
+            sortSignAbsSortBox.Enabled = !sortSignAbsSortBox.Enabled;
+            if (allWeightsBox.Checked ==  true)
+            {
+                sortByLayersBox.Enabled = !sortByLayersBox.Enabled;
+            }
+        }
+
+        private void sortByLayersBox_CheckedChanged(object sender, EventArgs e)
+        {
+            sortByModuleAscBox.Enabled = !sortByModuleAscBox.Enabled;
+            sortByNumBox.Enabled = !sortByNumBox.Enabled;
+            fromInputToOutputBox.Enabled = !fromInputToOutputBox.Enabled;
+            bySumWeightsBox.Enabled = !bySumWeightsBox.Enabled;
+            sortSignFromToSortBox.Enabled = !sortSignFromToSortBox.Enabled;
+            sortSignAbsSumSortBox.Enabled = !sortSignAbsSumSortBox.Enabled;
+            sortSignNumSortBox.Enabled = !sortSignNumSortBox.Enabled;
+            sortSignAbsSortBox.Enabled = !sortSignAbsSortBox.Enabled;
+        }
+
+        private void fromInputToOutputBox_CheckedChanged(object sender, EventArgs e)
+        {
+            bySumWeightsBox.Enabled = !bySumWeightsBox.Enabled;
+            sortSignAbsSumSortBox.Enabled = !sortSignAbsSumSortBox.Enabled;
+        }
+
+        private void bySumWeightsBox_CheckedChanged(object sender, EventArgs e)
+        {
+            fromInputToOutputBox.Enabled = !fromInputToOutputBox.Enabled;
+            sortSignFromToSortBox.Enabled = !sortSignFromToSortBox.Enabled;
         }
     }
 }
