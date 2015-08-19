@@ -107,7 +107,7 @@ namespace Neural
         {
             this.alphaBox.Text = alpha.ToString();
             this.randomCountWeightsBox.Text = randomWeightsCount.ToString();
-            this.weightsChangeBox.Text = weightChange.ToString();
+            //this.weightsChangeBox.Text = weightChange.ToString();
             this.maxWeightValueBox.Text = maxWeightValue.ToString();
             this.minWeightValueBox.Text = minWeightValue.ToString();
             this.limitRepeatBox.Text = loops.ToString();
@@ -273,7 +273,7 @@ namespace Neural
             }
 
             randomWeightsCount = Int32.Parse(randomCountWeightsBox.Text);
-            weightChange = Double.Parse(weightsChangeBox.Text);
+            //weightChange = Double.Parse(weightsChangeBox.Text);
             maxWeightValue = Double.Parse(maxWeightValueBox.Text);
             minWeightValue = Double.Parse(minWeightValueBox.Text);
             loops = Int32.Parse(limitRepeatBox.Text);
@@ -442,6 +442,10 @@ namespace Neural
                 trainingWeights = sortByLayers(trainingWeights, network);
             }
 
+            if (weightsChangeBox.Text.Length != 0)
+            {
+                weightChange = Double.Parse(weightsChangeBox.Text);
+            }
             int currentWeight = 0;
             String[] signature = new String[3];
             int layer = 0;
@@ -472,6 +476,12 @@ namespace Neural
                     value = network.Layers[layer].Neurons[neuron].Weights[weight];
                     initialValue = network.Layers[layer].Neurons[neuron].Weights[weight];
                     weightsView.Invoke(new Action(() => weightsView.Rows[currentWeight].Cells[3].Value = initialValue));
+
+                    if (percentChangeBox.Text.Length != 0)
+                    {
+                        Double percent = Double.Parse(percentChangeBox.Text);
+                        weightChange = (value / 100) * percent;
+                    }
                 }
                 //new value better the old
                 if (lastValidation <= moduleValidateError)
@@ -966,6 +976,29 @@ namespace Neural
         {
             fromInputToOutputBox.Enabled = !fromInputToOutputBox.Enabled;
             sortSignFromToSortBox.Enabled = !sortSignFromToSortBox.Enabled;
+        }
+
+        private void weightsChangeBox_TextChanged(object sender, EventArgs e)
+        {
+            if (weightsChangeBox.Text.Length != 0 && percentChangeBox.Enabled == true)
+            {
+                percentChangeBox.Enabled = false;
+            }
+            else if(weightsChangeBox.Text.Length == 0 && percentChangeBox.Enabled == false)
+            {
+                percentChangeBox.Enabled = true;
+            }
+        }
+
+        private void percentChangeBox_TextChanged(object sender, EventArgs e)
+        {
+            if (percentChangeBox.Text.Length != 0 && weightsChangeBox.Enabled == true)
+            {
+                weightsChangeBox.Enabled = !weightsChangeBox.Enabled;
+            } else if (percentChangeBox.Text.Length == 0 && weightsChangeBox.Enabled == false)
+            {
+                weightsChangeBox.Enabled = true;
+            }
         }
     }
 }
