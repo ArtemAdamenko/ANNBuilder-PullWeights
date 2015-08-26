@@ -444,7 +444,7 @@ namespace Neural
 
             if (weightsChangeBox.Text.Length != 0)
             {
-                weightChange = Double.Parse(weightsChangeBox.Text);
+                weightChange = Math.Abs(Double.Parse(weightsChangeBox.Text));
             }
             int currentWeight = 0;
             String[] signature = new String[3];
@@ -480,7 +480,7 @@ namespace Neural
                     if (percentChangeBox.Text.Length != 0)
                     {
                         Double percent = Double.Parse(percentChangeBox.Text);
-                        weightChange = (value / 100) * percent;
+                        weightChange = Math.Abs((value / 100) * percent);
                     }
                 }
                 //new value better the old

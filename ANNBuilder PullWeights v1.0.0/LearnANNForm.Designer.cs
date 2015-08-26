@@ -52,10 +52,14 @@ namespace Neural
             this.fileTextBox = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.percentChangeBox = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.weightsChangeBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.minWeightValueBox = new System.Windows.Forms.TextBox();
             this.maxWeightValueBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.weightsChangeBox = new System.Windows.Forms.TextBox();
             this.randomCountWeightsBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -75,7 +79,6 @@ namespace Neural
             this.label5 = new System.Windows.Forms.Label();
             this.stopButton = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.нейроннаяСетьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,13 +120,9 @@ namespace Neural
             this.label3 = new System.Windows.Forms.Label();
             this.repeatPullBox = new System.Windows.Forms.CheckBox();
             this.allWeightsBox = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.percentChangeBox = new System.Windows.Forms.TextBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox3.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.weightsView)).BeginInit();
@@ -132,7 +131,6 @@ namespace Neural
             this.groupBox6.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // label4
@@ -194,6 +192,55 @@ namespace Neural
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Настройки";
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.percentChangeBox);
+            this.groupBox9.Controls.Add(this.label13);
+            this.groupBox9.Controls.Add(this.weightsChangeBox);
+            this.groupBox9.Controls.Add(this.label12);
+            this.groupBox9.Location = new System.Drawing.Point(6, 177);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(260, 72);
+            this.groupBox9.TabIndex = 30;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Изменение веса";
+            // 
+            // percentChangeBox
+            // 
+            this.percentChangeBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.percentChangeBox.Location = new System.Drawing.Point(167, 44);
+            this.percentChangeBox.Name = "percentChangeBox";
+            this.percentChangeBox.Size = new System.Drawing.Size(87, 21);
+            this.percentChangeBox.TabIndex = 29;
+            this.percentChangeBox.TextChanged += new System.EventHandler(this.percentChangeBox_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(14, 46);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(78, 13);
+            this.label13.TabIndex = 28;
+            this.label13.Text = "Относительн.";
+            // 
+            // weightsChangeBox
+            // 
+            this.weightsChangeBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.weightsChangeBox.Location = new System.Drawing.Point(167, 17);
+            this.weightsChangeBox.Name = "weightsChangeBox";
+            this.weightsChangeBox.Size = new System.Drawing.Size(86, 21);
+            this.weightsChangeBox.TabIndex = 23;
+            this.weightsChangeBox.TextChanged += new System.EventHandler(this.weightsChangeBox_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(14, 25);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(62, 13);
+            this.label12.TabIndex = 27;
+            this.label12.Text = "Абсолютн.";
+            // 
             // minWeightValueBox
             // 
             this.minWeightValueBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -218,15 +265,6 @@ namespace Neural
             this.label10.Size = new System.Drawing.Size(94, 13);
             this.label10.TabIndex = 24;
             this.label10.Text = "Нижняя граница:";
-            // 
-            // weightsChangeBox
-            // 
-            this.weightsChangeBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.weightsChangeBox.Location = new System.Drawing.Point(167, 17);
-            this.weightsChangeBox.Name = "weightsChangeBox";
-            this.weightsChangeBox.Size = new System.Drawing.Size(86, 21);
-            this.weightsChangeBox.TabIndex = 23;
-            this.weightsChangeBox.TextChanged += new System.EventHandler(this.weightsChangeBox_TextChanged);
             // 
             // randomCountWeightsBox
             // 
@@ -384,7 +422,7 @@ namespace Neural
             // 
             this.stopButton.Enabled = false;
             this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.stopButton.Location = new System.Drawing.Point(108, 20);
+            this.stopButton.Location = new System.Drawing.Point(929, 0);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(81, 25);
             this.stopButton.TabIndex = 8;
@@ -395,23 +433,12 @@ namespace Neural
             // 
             this.startButton.Enabled = false;
             this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.startButton.Location = new System.Drawing.Point(6, 20);
+            this.startButton.Location = new System.Drawing.Point(818, 0);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(105, 25);
             this.startButton.TabIndex = 7;
             this.startButton.Text = "Начать обучение";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.startButton);
-            this.groupBox5.Controls.Add(this.stopButton);
-            this.groupBox5.Location = new System.Drawing.Point(742, 715);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(195, 57);
-            this.groupBox5.TabIndex = 11;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = " Обучение";
             // 
             // menuStrip1
             // 
@@ -493,7 +520,7 @@ namespace Neural
             this.groupBox2.Controls.Add(this.zedGraphControl1);
             this.groupBox2.Location = new System.Drawing.Point(12, 29);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(724, 744);
+            this.groupBox2.Size = new System.Drawing.Size(724, 687);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Изменение ошибки обучения";
@@ -512,7 +539,7 @@ namespace Neural
             this.weightsView.Name = "weightsView";
             this.weightsView.RowHeadersVisible = false;
             this.weightsView.RowTemplate.Height = 23;
-            this.weightsView.Size = new System.Drawing.Size(238, 718);
+            this.weightsView.Size = new System.Drawing.Size(238, 667);
             this.weightsView.TabIndex = 6;
             // 
             // index
@@ -542,9 +569,9 @@ namespace Neural
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lastRunsGridView);
-            this.groupBox1.Location = new System.Drawing.Point(6, 508);
+            this.groupBox1.Location = new System.Drawing.Point(6, 465);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(468, 230);
+            this.groupBox1.Size = new System.Drawing.Size(468, 215);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Последние запуски";
@@ -563,7 +590,7 @@ namespace Neural
             this.lastRunsGridView.Location = new System.Drawing.Point(6, 17);
             this.lastRunsGridView.Name = "lastRunsGridView";
             this.lastRunsGridView.RowHeadersVisible = false;
-            this.lastRunsGridView.Size = new System.Drawing.Size(462, 207);
+            this.lastRunsGridView.Size = new System.Drawing.Size(462, 192);
             this.lastRunsGridView.TabIndex = 0;
             // 
             // Column5
@@ -600,7 +627,7 @@ namespace Neural
             // 
             this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.zedGraphControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.zedGraphControl1.Location = new System.Drawing.Point(12, 17);
+            this.zedGraphControl1.Location = new System.Drawing.Point(12, 13);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -609,7 +636,7 @@ namespace Neural
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(462, 485);
+            this.zedGraphControl1.Size = new System.Drawing.Size(462, 446);
             this.zedGraphControl1.TabIndex = 1;
             // 
             // openFileDialog1
@@ -804,66 +831,28 @@ namespace Neural
             this.allWeightsBox.UseVisualStyleBackColor = true;
             this.allWeightsBox.CheckedChanged += new System.EventHandler(this.allWeightsBox_CheckedChanged);
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(14, 25);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 13);
-            this.label12.TabIndex = 27;
-            this.label12.Text = "Абсолютн.";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(14, 46);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(78, 13);
-            this.label13.TabIndex = 28;
-            this.label13.Text = "Относительн.";
-            // 
-            // percentChangeBox
-            // 
-            this.percentChangeBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.percentChangeBox.Location = new System.Drawing.Point(167, 44);
-            this.percentChangeBox.Name = "percentChangeBox";
-            this.percentChangeBox.Size = new System.Drawing.Size(87, 21);
-            this.percentChangeBox.TabIndex = 29;
-            this.percentChangeBox.TextChanged += new System.EventHandler(this.percentChangeBox_TextChanged);
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.percentChangeBox);
-            this.groupBox9.Controls.Add(this.label13);
-            this.groupBox9.Controls.Add(this.weightsChangeBox);
-            this.groupBox9.Controls.Add(this.label12);
-            this.groupBox9.Location = new System.Drawing.Point(6, 177);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(260, 72);
-            this.groupBox9.TabIndex = 30;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Изменение веса";
-            // 
             // LearnANNForm
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
-            this.ClientSize = new System.Drawing.Size(1028, 785);
+            this.ClientSize = new System.Drawing.Size(1028, 712);
+            this.Controls.Add(this.stopButton);
+            this.Controls.Add(this.startButton);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "LearnANNForm";
-            this.Text = "ANNBuilder PullWeights v1.6.7";
+            this.Text = "ANNBuilder PullWeights v1.6.8";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1_Closing);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -876,15 +865,11 @@ namespace Neural
             this.groupBox8.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
         #endregion
-
-        private GroupBox groupBox5;
         private Label mLabel;
         private TextBox moduleValidBox;
         private SaveFileDialog saveFileDialog1;
